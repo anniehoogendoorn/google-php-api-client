@@ -9,7 +9,11 @@ function getService()
 
   // Use the developers console and replace the values with your
   // service account email, and relative location of your key file.
-  $service_account_email = 'taco-tester@nodal-strength-118806.iam.gserviceaccount.com';
+  //Charlie's email
+  // $service_account_email = 'taco-tester@nodal-strength-118806.iam.gserviceaccount.com';
+  //My email
+  $service_account_email = 'test-1-service-account@decisive-force-119018.iam.gserviceaccount.com';
+
   $key_file_location = 'client_secrets.p12';
 
   // Create and configure a new client object.
@@ -78,8 +82,27 @@ function getResults(&$analytics, $profileId) {
        'ga:' . $profileId,
        '7daysAgo',
        'today',
-       'ga:sessions');
+       'ga:sessions')
+       ;
 }
+
+//Trying to use the extended query, did not work
+// function getResults(&$analytics, $profileId) {
+//   // Calls the Core Reporting API and queries for the number of sessions
+//   // for the last seven days.
+//    return $analytics->data_ga->get(
+//        'ga:' . $profileId,
+//        '7daysAgo',
+//        'today',
+//        'ga:sessions',
+//        array(
+//          'dimensions'  => 'ga:country',
+//          'sort'        => '-ga:sessions',
+//          'max-results' => 20
+//        ) );
+// }
+
+
 
 function printResults(&$results) {
   // Parses the response from the Core Reporting API and prints
