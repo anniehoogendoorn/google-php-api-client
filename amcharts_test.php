@@ -9,11 +9,22 @@ require_once 'vendor/autoload.php';
  */
 session_start();
 
-$server = 'mysql:host=dbinstancetest.czbzihzhfgaj.us-east-1.rds.amazonaws.com;port=3306;dbname=testdb';
-$username = 'sq1';
-$password = 'mypassword';
-//setting up connection to our database
-$DB = new PDO($server, $username, $password);
+try {
+  $server = 'mysql:host=dbinstancetest.czbzihzhfgaj.us-east-1.rds.amazonaws.com;port=3306;dbname=testdb';
+  $username = 'sq1';
+  $password = 'mypassword';
+  //setting up connection to our database
+  $DB = new PDO($server, $username, $password);
+  //Throw an exception when an error is encountered in the query
+  $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+  $DB->exec("SET NAMES 'utf8'");
+  // var_dump($DB);
+} catch (Exception $e) {
+  echo "Could not connect to the database";
+  exit;
+}
+
+
 
 /**
  * Set Google service account details
@@ -66,7 +77,7 @@ $analytics = getService(
  */
 $results = $analytics->data_ga->get(
   'ga:' . $google_account[ 'profile' ], //profile id
-  'yesterday', // start date
+  'today', // start date
   'today',  // end date
   'ga:sessions', //metric
 
@@ -74,7 +85,8 @@ $results = $analytics->data_ga->get(
     'dimensions'  => 'ga:date',
     'sort'        => '-ga:sessions',
     'max-results' => 20
-  ) );
+  )
+);
 $sessions = $results->getRows();
 
 // var_dump($sessions);
@@ -91,4 +103,36 @@ foreach( $sessions as $row ) {
   );
 }
 
-echo json_encode( $data );
+// echo json_encode( $data );
+$jsondata = json_encode( $data);
+
+echo $jsondata;
+
+// foreach($data as $item) {
+//     $DB->exec("INSERT INTO sessions (date, sessions)");
+// }
+
+
+
+
+
+$sessions_date = $data['date'];
+$sessions = $data['sessions'];
+try {
+  $DB->exec("INSERT INTO sessions (sessions_date, sessions)");
+
+  } catch (Exception $e) {
+    echo "Data could not be saved to the database.";
+    exit;
+  }
+
+
+//Treehouse example
+
+// try {
+//   $results = $DB->query("SELECT date, sessions FROM sessions");
+//   echo "Our query ran succesfully.";
+// } catch (Exception $e) {
+//   echo "Data could not be retrieved from the database.";
+//   exit;
+// }
