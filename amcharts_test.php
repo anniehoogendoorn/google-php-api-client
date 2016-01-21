@@ -4,6 +4,7 @@
  */
 require_once 'vendor/autoload.php';
 require_once 'src/analytics.php';
+require_once 'user_data.php';
 
 /**
  * Start session to store auth data
@@ -11,9 +12,9 @@ require_once 'src/analytics.php';
 session_start();
 
 try {
-  $server = 'mysql:host=dbinstancetest.czbzihzhfgaj.us-east-1.rds.amazonaws.com;port=3306;dbname=testdb';
-  $username = 'sq1';
-  $password = 'mypassword';
+  $server = $server_placeholder;
+  $username = $username_placeholder;
+  $password = $password_placeholder;
   //setting up connection to our database
   $DB = new PDO($server, $username, $password);
   //Throw an exception when an error is encountered in the query
@@ -31,9 +32,9 @@ try {
  * Set Google service account details
  */
 $google_account = array(
-  'email'   => 'test-1-service-account@decisive-force-119018.iam.gserviceaccount.com',
+  'email'   => $google_email_placholder,
   'key'     => file_get_contents( 'client_secrets.p12' ),
-  'profile' => '10158492'
+  'profile' => $google_profile_placholder
 
 );
 
