@@ -78,17 +78,17 @@ $results = $analytics->data_ga->get(
 $sessions = $results->getRows();
 
 // var_dump($sessions);
-// print_r($sessions);
+print_r($sessions);
 
 /**
  * Format and output data as JSON
  */
-$data = array();
-foreach( $sessions as $row ) {
-  $data[] = array(
-    'date'   => $row[0],
-    'sessions'  => $row[1]
-  );
-}
-
-echo json_encode( $data );
+// $data = array();
+// foreach( $sessions as $row ) {
+//   $data[] = array(
+//     'date'   => $row[0],
+//     'sessions'  => $row[1]
+//   );
+// }
+//
+// echo json_encode( $data );

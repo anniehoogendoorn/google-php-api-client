@@ -3,6 +3,7 @@
  * Load Google API library
  */
 require_once 'vendor/autoload.php';
+require_once 'src/analytics.php';
 
 /**
  * Start session to store auth data
@@ -77,7 +78,7 @@ $analytics = getService(
  */
 $results = $analytics->data_ga->get(
   'ga:' . $google_account[ 'profile' ], //profile id
-  'today', // start date
+  'yesterday', // start date
   'today',  // end date
   'ga:sessions', //metric
 
@@ -87,26 +88,33 @@ $results = $analytics->data_ga->get(
     'max-results' => 20
   )
 );
-$sessions = $results->getRows();
+$returned_data = $results->getRows();
 
 // var_dump($sessions);
-// print_r($sessions);
+print_r($returned_data);
 
 /**
  * Format and output data as JSON
  */
-$data = array();
-foreach( $sessions as $row ) {
-  $data[] = array(
-    'date'   => $row[0],
-    'sessions'  => $row[1]
-  );
-}
+// $data = array();
+// foreach( $sessions as $row ) {
+//   $data[] = array(
+//     'date'   => $row[0],
+//     'sessions'  => $row[1]
+//   );
+// }
+
+//
+
+
+Analytics::getAll($returned_data);
+// echo $sessions;
+
+
 
 // echo json_encode( $data );
-$jsondata = json_encode( $data);
+// $jsondata = json_encode( $data);
 
-echo $jsondata;
 
 // foreach($data as $item) {
 //     $DB->exec("INSERT INTO sessions (date, sessions)");
@@ -115,16 +123,15 @@ echo $jsondata;
 
 
 
-
-$sessions_date = $data['date'];
-$sessions = $data['sessions'];
-try {
-  $DB->exec("INSERT INTO sessions (sessions_date, sessions)");
-
-  } catch (Exception $e) {
-    echo "Data could not be saved to the database.";
-    exit;
-  }
+// $sessions_date = $data['date'];
+// $sessions = $data['sessions'];
+// try {
+//   $DB->exec("INSERT INTO sessions (sessions_date, sessions) VALUES '$sessions_cate', '$sessions'");
+//
+//   } catch (Exception $e) {
+//     echo "Data could not be saved to the database.";
+//     exit;
+//   }
 
 
 //Treehouse example
