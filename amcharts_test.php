@@ -90,48 +90,11 @@ $results = $analytics->data_ga->get(
 );
 $returned_data = $results->getRows();
 
-// var_dump($sessions);
-print_r($returned_data);
+// print_r($returned_data);
 
-/**
- * Format and output data as JSON
- */
-// $data = array();
-// foreach( $sessions as $row ) {
-//   $data[] = array(
-//     'date'   => $row[0],
-//     'sessions'  => $row[1]
-//   );
-// }
-
-//
-
-
+//Get the returned analytics data and save it to the database
 Analytics::getAll($returned_data);
-// echo $sessions;
 
-
-
-// echo json_encode( $data );
-// $jsondata = json_encode( $data);
-
-
-// foreach($data as $item) {
-//     $DB->exec("INSERT INTO sessions (date, sessions)");
-// }
-
-
-
-
-// $sessions_date = $data['date'];
-// $sessions = $data['sessions'];
-// try {
-//   $DB->exec("INSERT INTO sessions (sessions_date, sessions) VALUES '$sessions_cate', '$sessions'");
-//
-//   } catch (Exception $e) {
-//     echo "Data could not be saved to the database.";
-//     exit;
-//   }
 
 
 //Treehouse example

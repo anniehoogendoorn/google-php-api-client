@@ -46,16 +46,20 @@
 
         static function getAll($returned_data)
         {
-          $data = array();
-          foreach($returned_data as $row) {
-              $sessions_date = $row[0];
-              $sessions = $row[1];
-              $analytics_object = new Analytics($sessions_date, $sessions);
-              $analytics_object->save();
-              array_push($data, $analytics_object);
-              // echo $sessions;
-          }
-          print_r ($data);
+            try {
+                $data = array();
+                foreach($returned_data as $row) {
+                $sessions_date = $row[0];
+                $sessions = $row[1];
+                $analytics_object = new Analytics($sessions_date, $sessions);
+                $analytics_object->save();
+                array_push($data, $analytics_object);
+                }
+                print_r ($data);
+            }   catch (Exception $e) {
+                echo "Data could not be saved to the database.";
+                exit;
+                }
 
         }
 
